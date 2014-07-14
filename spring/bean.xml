@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: beans2.xml,v 1.3 2006/08/20 19:08:40 jhoeller Exp $ -->
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+	<description>Test</description>
+	<bean id="TheAction" class="functionTest.UpperAction">
+		<property name="message">
+			<value>好运到 </value>
+		</property>
+	</bean>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:1521/test"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="smile"></property>
+		<property name="initialSize" value="1"></property>
+		<property name="maxActive" value="300"></property>
+		<property name="maxIdle" value="2"></property>
+		<property name="minIdle" value="1"></property>
+	</bean>
+	<!-- 别名的使用 -->
+	<alias name="dataSource" alias="dataSourceMySQL"/>
+	
+	<bean id="userService" class="functionTest.UserServiceImpl">
+		<property name="dataSource" ref="dataSourceMySQL"></property>
+	</bean>
+	
+	<bean id="getBeanTest" class="functionTest.lookup.bean.GetBeanTest">
+		<lookup-method name="getBean" bean="student"/>
+	</bean>
+	<bean id="teacher" class="functionTest.lookup.bean.Teacher"></bean>
+	<bean id="student" class="functionTest.lookup.bean.Student"></bean>
+	
+	<bean id="testChangeMethod" class="functionTest.MethodReplace.TestChangeMethod">
+		<replaced-method name="changeMe" replacer="replacer"></replaced-method>
+	</bean>
+	<bean id="replacer" class="functionTest.MethodReplace.TestMethodReplacer"></bean>
+	
+<!-- 	<bean id="testA" class="functionTest.circlereference.TestA"> -->
+<!-- 		<constructor-arg index="0" ref="testB"></constructor-arg> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="testB" class="functionTest.circlereference.TestB"> -->
+<!-- 		<constructor-arg index="0" ref="testC"></constructor-arg> -->
+<!-- 	</bean> -->
+<!-- 		<bean id="testC" class="functionTest.circlereference.TestC"> -->
+<!-- 		<constructor-arg index="0" ref="testA"></constructor-arg> -->
+<!-- 	</bean> -->
+	
+	<bean id="testA" class="functionTest.circlereference.TestA" scope="prototype">
+		<property name="testB" ref="testB"></property>
+	</bean>
+	<bean id="testB" class="functionTest.circlereference.TestB" scope="prototype">
+		<property name="testC" ref="testC"></property>
+	</bean>
+	<bean id="testC" class="functionTest.circlereference.TestC" scope="prototype">
+		<property name="testA" ref="testA"></property>
+	</bean>
+</beans>

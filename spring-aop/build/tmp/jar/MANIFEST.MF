@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Created-By: 1.7.0_51 (Oracle Corporation)
+Implementation-Title: spring-aop
+Implementation-Version: 3.2.10.BUILD-SNAPSHOT
+
