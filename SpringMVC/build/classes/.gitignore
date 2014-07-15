@@ -1,2 +1,4 @@
 /userMapper.xml
 /test/
+/applicationContext.xml
+/mybatis-config.xml
